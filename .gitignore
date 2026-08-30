@@ -1,0 +1,4 @@
+node_modules/
+food-ordering-app/
+.DS_Store
+*.log

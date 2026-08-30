@@ -1,15 +1,22 @@
 {
   "version": 2,
-  "builds": [
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
     {
-      "src": "**/*.html",
-      "use": "@vercel/static"
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache" }
+      ]
     }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/restaurants", "dest": "/restaurants.html" },
+    { "src": "/menu", "dest": "/menu.html" },
+    { "src": "/cart", "dest": "/cart.html" },
+    { "src": "/auth", "dest": "/auth.html" },
+    { "src": "/admin", "dest": "/admin.html" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
