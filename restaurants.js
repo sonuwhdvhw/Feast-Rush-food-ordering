@@ -47,13 +47,7 @@ const IMG = {
   fi_schnitzel:'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&auto=format&fit=crop',
 };
 
-const FLAG_MAP = {
-  'Italy':'🇮🇹','India':'🇮🇳','Japan':'🇯🇵','Mexico':'🇲🇽','China':'🇨🇳',
-  'USA':'🇺🇸','Thailand':'🇹🇭','France':'🇫🇷','Turkey':'🇹🇷','Greece':'🇬🇷',
-  'South Korea':'🇰🇷','Vietnam':'🇻🇳','Spain':'🇪🇸','Morocco':'🇲🇦','Brazil':'🇧🇷',
-  'UK':'🇬🇧','Germany':'🇩🇪','Egypt':'🇪🇬','Indonesia':'🇮🇩','Canada':'🇨🇦',
-  'Australia':'🇦🇺','UAE':'🇦🇪'
-};
+// FLAG_MAP is defined in app.js - do not redefine here
 
 const RESTAURANTS = [
   {id:'w_italy',name:'Bella Italia',city:'Rome',country:'Italy',flag:'🇮🇹',image:IMG.italian,emoji:'🍕',rating:4.8,deliveryTime:'25-40',deliveryFee:3.49,minOrder:15,tags:['Italian','Pizza','Pasta'],badge:'Top Rated',

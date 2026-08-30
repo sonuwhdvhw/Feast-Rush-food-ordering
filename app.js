@@ -143,12 +143,11 @@ function formatDate(iso){ return new Date(iso).toLocaleString('en-US',{month:'sh
 function generateOrderId(){ return 'FR-'+Date.now().toString(36).toUpperCase(); }
 
 // FLAG MAP — all 20 countries
-const FLAG_MAP={
+const FLAG_MAP = {
   'Italy':'🇮🇹','India':'🇮🇳','Japan':'🇯🇵','Mexico':'🇲🇽','China':'🇨🇳',
   'USA':'🇺🇸','Thailand':'🇹🇭','France':'🇫🇷','Turkey':'🇹🇷','Greece':'🇬🇷',
   'South Korea':'🇰🇷','Vietnam':'🇻🇳','Spain':'🇪🇸','Morocco':'🇲🇦','Brazil':'🇧🇷',
   'UK':'🇬🇧','Germany':'🇩🇪','Egypt':'🇪🇬','Indonesia':'🇮🇩','Canada':'🇨🇦',
-  // legacy keys
   'Australia':'🇦🇺','UAE':'🇦🇪'
 };
 
