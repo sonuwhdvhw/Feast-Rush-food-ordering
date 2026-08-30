@@ -142,7 +142,14 @@ function formatCurrency(n){ return '$'+n.toFixed(2); }
 function formatDate(iso){ return new Date(iso).toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
 function generateOrderId(){ return 'FR-'+Date.now().toString(36).toUpperCase(); }
 
-// FLAG MAP
-const FLAG_MAP={USA:'🇺🇸',UK:'🇬🇧',Japan:'🇯🇵',India:'🇮🇳',Italy:'🇮🇹',France:'🇫🇷',Mexico:'🇲🇽',China:'🇨🇳',Thailand:'🇹🇭',Australia:'🇦🇺',Brazil:'🇧🇷',UAE:'🇦🇪',Spain:'🇪🇸',Turkey:'🇹🇷'};
+// FLAG MAP — all 20 countries
+const FLAG_MAP={
+  'Italy':'🇮🇹','India':'🇮🇳','Japan':'🇯🇵','Mexico':'🇲🇽','China':'🇨🇳',
+  'USA':'🇺🇸','Thailand':'🇹🇭','France':'🇫🇷','Turkey':'🇹🇷','Greece':'🇬🇷',
+  'South Korea':'🇰🇷','Vietnam':'🇻🇳','Spain':'🇪🇸','Morocco':'🇲🇦','Brazil':'🇧🇷',
+  'UK':'🇬🇧','Germany':'🇩🇪','Egypt':'🇪🇬','Indonesia':'🇮🇩','Canada':'🇨🇦',
+  // legacy keys
+  'Australia':'🇦🇺','UAE':'🇦🇪'
+};
 
 document.addEventListener('DOMContentLoaded',()=>{ updateCartBadges(); initScrollAnimations(); });

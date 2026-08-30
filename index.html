@@ -158,8 +158,21 @@
 
 <style>
 @keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,.5)}50%{box-shadow:0 0 0 6px rgba(52,211,153,0)}}
-.country-chip{display:inline-flex;align-items:center;gap:6px;background:var(--glass);border:1px solid var(--border);padding:7px 16px;border-radius:50px;font-size:.82rem;backdrop-filter:blur(8px);transition:var(--t)}
-.country-chip:hover{border-color:var(--p1);transform:translateY(-2px)}
+.country-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:7px 16px;border-radius:50px;font-size:.82rem;backdrop-filter:blur(8px);transition:all .3s}
+.country-chip:hover{border-color:#FF512F;transform:translateY(-2px)}
+/* Critical fallbacks for Vercel */
+.section-title{color:#fff !important}
+.section-sub{color:#94A3B8 !important}
+.hero-title{color:#fff !important}
+.hero-subtitle{color:#94A3B8 !important}
+.restaurant-name{color:#fff !important}
+.step-card h3{color:#fff !important}
+.step-card p{color:#94A3B8 !important}
+.testimonial-text{color:#94A3B8 !important}
+.author-name{color:#fff !important}
+.author-location{color:#94A3B8 !important}
+.footer-col ul a{color:#94A3B8 !important}
+.footer-bottom{color:#64748B !important}
 </style>
 
 <script src="app.js"></script><script src="restaurants.js"></script>
@@ -181,15 +194,17 @@ let hi=0;const imgEl=document.getElementById('hero-img');
 setInterval(()=>{hi=(hi+1)%imgs.length;imgEl.style.opacity='0';imgEl.style.transform='translateX(-50%) scale(.97)';
   setTimeout(()=>{imgEl.src=imgs[hi];imgEl.style.opacity='1';imgEl.style.transform='';imgEl.style.transition='opacity .6s,transform .6s';},350);},3500);
 
-// Counters
-let started=false;
-new IntersectionObserver(entries=>{if(entries[0].isIntersecting&&!started){started=true;
+// Counters — start immediately on page load, no threshold
+function startCounters(){
   document.querySelectorAll('[data-target]').forEach(el=>{
     const tgt=parseFloat(el.dataset.target);const isF=String(tgt).includes('.');let st=null;
     const step=ts=>{if(!st)st=ts;const p=Math.min((ts-st)/2000,1);const e=1-Math.pow(1-p,3);
       el.textContent=isF?(tgt*e).toFixed(1):Math.floor(tgt*e).toLocaleString();if(p<1)requestAnimationFrame(step);};
-    requestAnimationFrame(step);});
-}},{threshold:.5}).observe(document.querySelector('.hero-stats'));
+    requestAnimationFrame(step);
+  });
+}
+// Start after 500ms to ensure DOM is ready
+setTimeout(startCounters, 500);
 
 function heroSearch(){const q=document.getElementById('hero-search').value.trim();window.location.href='restaurants.html'+(q?'?q='+encodeURIComponent(q):'');}
 
