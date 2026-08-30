@@ -1,113 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Menu – FeastRush</title><link rel="stylesheet" href="styles.css"/></head>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Menu - FeastRush</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
 <body class="menu-page">
-<div class="bg-particles"><div class="bg-orb bg-orb-1"></div><div class="bg-orb bg-orb-2"></div></div>
+<div class="bg-particles">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+</div>
 <div id="navbar-container"></div>
+
 <div class="restaurant-header" id="rh">
-  <img id="hdr-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;filter:brightness(.55);"/>
+  <img id="hdr-img" src="" alt=""/>
   <div class="restaurant-header-overlay"></div>
   <div class="restaurant-header-info" style="max-width:1280px;left:50%;transform:translateX(-50%);position:absolute;bottom:0;">
-    <a href="restaurants.html" style="color:var(--text-m);text-decoration:none;font-size:.83rem;margin-bottom:12px;display:inline-block;">← Back to Restaurants</a>
-    <h1 id="r-title" style="font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#fff;margin-bottom:10px;"></h1>
-    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;font-size:.86rem;color:var(--text-m);">
-      <span id="r-loc"></span><span id="r-rat" style="color:var(--gold);font-weight:700;"></span><span id="r-del"></span><span id="r-fee"></span><span id="r-min"></span>
+    <a href="restaurants.html" style="color:#94A3B8;text-decoration:none;font-size:.83rem;margin-bottom:12px;display:inline-block;">&larr; Back to Restaurants</a>
+    <h1 id="r-title" style="font-size:2.2rem;font-weight:900;color:#fff;margin-bottom:10px;"></h1>
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;font-size:.86rem;color:#94A3B8;">
+      <span id="r-loc"></span>
+      <span id="r-rat" style="color:#FCD34D;font-weight:700;"></span>
+      <span id="r-del"></span>
+      <span id="r-fee"></span>
+      <span id="r-min"></span>
     </div>
     <div id="r-tags" style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;"></div>
   </div>
 </div>
+
 <div class="menu-container">
   <div id="menu-content"></div>
+
   <div class="cart-sidebar">
     <div class="cart-box">
-      <div class="cart-header"><span>🛒 Your Order</span><span id="cart-count" style="font-size:.78rem;color:var(--text-m);"></span></div>
-      <div class="cart-items" id="cart-list"><div class="empty-cart"><span class="empty-icon">🛒</span><p>Cart is empty</p><small style="color:var(--text-f)">Pick something delicious</small></div></div>
+      <div class="cart-header">
+        <span>&#128722; Your Order</span>
+        <span id="cart-count" style="font-size:.78rem;color:#94A3B8;"></span>
+      </div>
+      <div class="cart-items" id="cart-list">
+        <div class="empty-cart">
+          <span class="empty-icon">&#128722;</span>
+          <p>Cart is empty</p>
+          <small style="color:#64748B;">Pick something delicious</small>
+        </div>
+      </div>
       <div class="cart-footer" id="cart-footer" style="display:none;">
         <div class="cart-total-row"><span>Subtotal</span><span id="c-sub">$0.00</span></div>
         <div class="cart-total-row"><span>Delivery</span><span id="c-del">$0.00</span></div>
         <div class="cart-total-row"><span>Tax (8%)</span><span id="c-tax">$0.00</span></div>
         <div class="cart-total-row grand"><span>Total</span><span id="c-tot">$0.00</span></div>
-        <a href="cart.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:16px;padding:13px;">Checkout →</a>
-        <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;margin-top:8px;color:var(--danger);" onclick="clearCart();renderCart()">Clear Cart</button>
+        <a href="cart.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:16px;padding:13px;">Checkout &rarr;</a>
+        <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;margin-top:8px;color:#FF6B6B;" onclick="clearCart();renderCart()">Clear Cart</button>
       </div>
     </div>
   </div>
 </div>
-<script src="app.js"></script><script src="restaurants.js"></script>
+
+<script src="app.js"></script>
+<script src="restaurants.js"></script>
 <script>
 buildNavbar('restaurants');
-const params=new URLSearchParams(window.location.search);
-const rid=params.get('id');
-if(!rid){window.location.href='restaurants.html';}
-const R=getRestaurantById(rid);
-if(!R){window.location.href='restaurants.html';}
 
-document.title=R.name+' – FeastRush';
-document.getElementById('hdr-img').src=R.image;
-document.getElementById('hdr-img').alt=R.name;
-document.getElementById('r-title').textContent=R.emoji+' '+R.name;
-document.getElementById('r-loc').textContent='📍 '+R.city+', '+R.country+' '+(FLAG_MAP[R.country]||'');
-document.getElementById('r-rat').textContent='⭐ '+R.rating;
-document.getElementById('r-del').textContent='⏱ '+R.deliveryTime+' min';
-document.getElementById('r-fee').textContent='🚚 $'+R.deliveryFee+' delivery';
-document.getElementById('r-min').textContent='💳 Min. $'+R.minOrder;
-document.getElementById('r-tags').innerHTML=R.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+var params = new URLSearchParams(window.location.search);
+var rid = params.get('id');
+if(!rid){ window.location.href='restaurants.html'; }
+var R = getRestaurantById(rid);
+if(!R){ window.location.href='restaurants.html'; }
 
-document.getElementById('menu-content').innerHTML=R.menu.map(cat=>`
-  <div class="menu-category">
-    <h2 class="menu-category-title">
-      <span style="width:32px;height:32px;background:var(--grad-primary);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:1rem;">${cat.items[0]?.emoji||'🍽️'}</span>
-      ${cat.category}
-    </h2>
-    <div class="menu-items-grid">
-      ${cat.items.map(item=>{
-        const img=getItemImage(item);
-        const js=JSON.stringify({...item,image:img,restaurantId:R.id,restaurantName:R.name}).replace(/"/g,'&quot;');
-        return`<div class="menu-item-card">
-          <div class="menu-item-img-wrap"><img class="menu-item-img" src="${img}" alt="${item.name}" loading="lazy"/></div>
-          <div class="menu-item-body">
-            <div class="menu-item-name">${item.name}</div>
-            <div class="menu-item-desc">${item.desc}</div>
-            <div class="menu-item-footer">
-              <span class="menu-item-price">$${item.price.toFixed(2)}</span>
-              <button class="btn btn-primary btn-sm" onclick='addToCartAndRender(${js})'>+ Add</button>
-            </div>
-          </div>
-        </div>`;
-      }).join('')}
-    </div>
-  </div>`).join('');
+// Fill header
+document.title = R.name + ' - FeastRush';
+document.getElementById('hdr-img').src = R.image;
+document.getElementById('hdr-img').alt = R.name;
+document.getElementById('r-title').textContent = R.emoji + ' ' + R.name;
+document.getElementById('r-loc').textContent = '&#128205; ' + R.city + ', ' + R.country + ' ' + (FLAG_MAP[R.country]||'');
+document.getElementById('r-rat').textContent = '&#11088; ' + R.rating;
+document.getElementById('r-del').textContent = '&#9201; ' + R.deliveryTime + ' min';
+document.getElementById('r-fee').textContent = '&#128666; $' + R.deliveryFee + ' delivery';
+document.getElementById('r-min').textContent = '&#128179; Min. $' + R.minOrder;
+document.getElementById('r-tags').innerHTML = R.tags.map(function(t){ return '<span class="tag">'+t+'</span>'; }).join('');
 
-function addToCartAndRender(item){addToCart(item);renderCart();}
+// Render menu
+var menuHtml = '';
+for(var c = 0; c < R.menu.length; c++){
+  var cat = R.menu[c];
+  menuHtml += '<div class="menu-category">';
+  menuHtml += '<h2 class="menu-category-title">' + cat.category + '</h2>';
+  menuHtml += '<div class="menu-items-grid">';
+  for(var i = 0; i < cat.items.length; i++){
+    var item = cat.items[i];
+    var img = item.image || 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&auto=format&fit=crop';
+    var itemData = {
+      id: item.id,
+      name: item.name,
+      desc: item.desc,
+      price: item.price,
+      image: img,
+      restaurantId: R.id,
+      restaurantName: R.name
+    };
+    var itemJson = JSON.stringify(itemData).replace(/'/g,"&#39;").replace(/"/g,'&quot;');
+    menuHtml += '<div class="menu-item-card">';
+    menuHtml += '<div class="menu-item-img-wrap"><img class="menu-item-img" src="'+img+'" alt="'+item.name+'" loading="lazy"/></div>';
+    menuHtml += '<div class="menu-item-body">';
+    menuHtml += '<div class="menu-item-name">'+item.name+'</div>';
+    menuHtml += '<div class="menu-item-desc">'+item.desc+'</div>';
+    menuHtml += '<div class="menu-item-footer">';
+    menuHtml += '<span class="menu-item-price">$'+item.price.toFixed(2)+'</span>';
+    menuHtml += '<button class="btn btn-primary btn-sm" onclick="addItem(\''+item.id+'\',\''+item.name.replace(/'/g,"\\'")+'\',' + item.price + ',\''+img+'\')">+ Add</button>';
+    menuHtml += '</div></div></div>';
+  }
+  menuHtml += '</div></div>';
+}
+document.getElementById('menu-content').innerHTML = menuHtml;
+
+function addItem(id, name, price, image){
+  addToCart({ id:id, name:name, price:price, image:image, restaurantId:R.id, restaurantName:R.name });
+  renderCart();
+}
 
 function renderCart(){
-  const cart=AppState.cart;
-  const list=document.getElementById('cart-list');
-  const footer=document.getElementById('cart-footer');
-  const cnt=document.getElementById('cart-count');
+  var cart = AppState.cart;
+  var list = document.getElementById('cart-list');
+  var footer = document.getElementById('cart-footer');
+  var cnt = document.getElementById('cart-count');
   if(!cart.length){
-    list.innerHTML='<div class="empty-cart"><span class="empty-icon">🛒</span><p>Cart is empty</p><small style="color:var(--text-f)">Pick something delicious</small></div>';
-    footer.style.display='none';cnt.textContent='';return;
+    list.innerHTML = '<div class="empty-cart"><span class="empty-icon">&#128722;</span><p>Cart is empty</p></div>';
+    footer.style.display = 'none';
+    cnt.textContent = '';
+    return;
   }
-  const n=getCartCount();cnt.textContent=`${n} item${n!==1?'s':''}`;footer.style.display='block';
-  list.innerHTML=cart.map(i=>`
-    <div class="cart-item">
-      <img class="cart-item-img" src="${i.image||R.image}" alt="${i.name}"/>
-      <div class="cart-item-name">${i.name}</div>
-      <div class="qty-control">
-        <button class="qty-btn" onclick="updateQty('${i.id}',-1);renderCart()">−</button>
-        <span class="qty-value">${i.qty}</span>
-        <button class="qty-btn" onclick="updateQty('${i.id}',1);renderCart()">+</button>
-      </div>
-      <span style="font-size:.82rem;font-weight:800;color:var(--price);min-width:52px;text-align:right;">$${(i.price*i.qty).toFixed(2)}</span>
-    </div>`).join('');
-  const sub=getCartTotal(),fee=R.deliveryFee,tax=sub*.08;
-  document.getElementById('c-sub').textContent=formatCurrency(sub);
-  document.getElementById('c-del').textContent=formatCurrency(fee);
-  document.getElementById('c-tax').textContent=formatCurrency(tax);
-  document.getElementById('c-tot').textContent=formatCurrency(sub+fee+tax);
+  var n = getCartCount();
+  cnt.textContent = n + ' item' + (n!==1?'s':'');
+  footer.style.display = 'block';
+  var html = '';
+  for(var i=0;i<cart.length;i++){
+    var item = cart[i];
+    html += '<div class="cart-item">';
+    html += '<img class="cart-item-img" src="'+(item.image||'')+'" alt="'+item.name+'"/>';
+    html += '<div class="cart-item-name">'+item.name+'</div>';
+    html += '<div class="qty-control">';
+    html += '<button class="qty-btn" onclick="updateQty(\''+item.id+'\',-1);renderCart()">-</button>';
+    html += '<span class="qty-value">'+item.qty+'</span>';
+    html += '<button class="qty-btn" onclick="updateQty(\''+item.id+'\',1);renderCart()">+</button>';
+    html += '</div>';
+    html += '<span style="font-size:.82rem;font-weight:800;color:#34D399;min-width:52px;text-align:right;">$'+(item.price*item.qty).toFixed(2)+'</span>';
+    html += '</div>';
+  }
+  list.innerHTML = html;
+  var sub = getCartTotal();
+  var fee = R.deliveryFee;
+  var tax = sub * 0.08;
+  document.getElementById('c-sub').textContent = formatCurrency(sub);
+  document.getElementById('c-del').textContent = formatCurrency(fee);
+  document.getElementById('c-tax').textContent = formatCurrency(tax);
+  document.getElementById('c-tot').textContent = formatCurrency(sub+fee+tax);
 }
+
 renderCart();
 </script>
 </body>
