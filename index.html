@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>FeastRush – Global Food Delivery</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div class="bg-particles"><div class="bg-orb bg-orb-1"></div><div class="bg-orb bg-orb-2"></div><div class="bg-orb bg-orb-3"></div></div>
+<div id="navbar-container"></div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-mesh"></div><div class="hero-grid-overlay"></div>
+  <div id="particles"></div>
+  <div class="hero-container">
+    <div class="hero-content">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
+        <div class="hero-eyebrow">🌍 28 restaurants · 14 countries</div>
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);color:#34D399;padding:6px 14px;border-radius:50px;font-size:.75rem;font-weight:700;">
+          <span style="width:7px;height:7px;border-radius:50%;background:#34D399;animation:livePulse 1.5s infinite;"></span> Live orders
+        </div>
+      </div>
+      <h1 class="hero-title">The World's Best<br>Food, <span class="gradient-text">Delivered</span><br><span class="glow-text">To You</span></h1>
+      <p class="hero-subtitle">From New York smash burgers to Tokyo sushi, Mumbai curries to Paris pastries — authentic flavors from 14 countries at your door.</p>
+      <div class="hero-search">
+        <span style="color:var(--text-f);font-size:1.1rem;">🔍</span>
+        <input type="text" id="hero-search" placeholder="Search cuisine, restaurant or city…" onkeydown="if(event.key==='Enter')heroSearch()"/>
+        <button class="btn btn-primary btn-sm" onclick="heroSearch()">Search</button>
+      </div>
+      <div class="hero-actions">
+        <a href="restaurants.html" class="btn btn-neon btn-lg">🍽️ Explore Restaurants</a>
+        <a href="auth.html?tab=signup" class="btn btn-secondary btn-lg">🚀 Sign Up Free</a>
+      </div>
+      <div class="hero-stats stagger">
+        <div class="stat-pill"><span class="stat-num" data-target="28">0</span><span class="stat-lbl">Restaurants</span></div>
+        <div class="stat-pill"><span class="stat-num" data-target="14">0</span><span class="stat-lbl">Countries</span></div>
+        <div class="stat-pill"><span class="stat-num" data-target="50000">0</span><span class="stat-lbl">Orders</span></div>
+        <div class="stat-pill"><span class="stat-num" data-target="4.8">0</span><span class="stat-lbl">Rating ⭐</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-image-stack">
+        <img id="hero-img" src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&auto=format&fit=crop" alt="Food" class="hero-main-img"/>
+        <div class="hero-float-card hero-float-card-1">✅ Delivered in <strong style="color:#34D399">24 mins</strong></div>
+        <div class="hero-float-card hero-float-card-2">🔥 <strong style="color:#FF512F">1,240+</strong> orders today</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<div class="section-divider"></div>
+<section style="background:rgba(255,255,255,.02);padding:80px 0;">
+  <div class="section-wrap" style="padding-top:0;padding-bottom:0;">
+    <div class="section-header animate-on-scroll">
+      <div class="section-tag">Browse by Cuisine</div>
+      <h2 class="section-title">What Are You <span class="gradient-text">Craving?</span></h2>
+      <p class="section-sub">Pick a cuisine and find your perfect restaurant</p>
+    </div>
+    <div class="categories-grid stagger animate-on-scroll" id="cats"></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div class="section-divider"></div>
+<section id="how-it-works" style="padding:80px 0;">
+  <div class="section-wrap" style="padding-top:0;padding-bottom:0;">
+    <div class="section-header animate-on-scroll">
+      <div class="section-tag">How It Works</div>
+      <h2 class="section-title">Order in <span class="gradient-text">4 Simple Steps</span></h2>
+    </div>
+    <div class="steps-grid stagger animate-on-scroll">
+      <div class="steps-connector"></div>
+      <div class="step-card"><div class="step-icon-wrap">🔍<span class="step-num">1</span></div><h3>Browse</h3><p>Explore 28 restaurants across 14 countries filtered by cuisine, rating, or delivery time.</p></div>
+      <div class="step-card"><div class="step-icon-wrap">🛒<span class="step-num">2</span></div><h3>Select</h3><p>Browse real menus with food photos, build your order, customize it your way.</p></div>
+      <div class="step-card"><div class="step-icon-wrap">💳<span class="step-num">3</span></div><h3>Pay</h3><p>Secure checkout with card, PayPal, or cash. Confirmed in seconds.</p></div>
+      <div class="step-card"><div class="step-icon-wrap">🚀<span class="step-num">4</span></div><h3>Enjoy</h3><p>Real-time tracking. Hot food delivered on time, guaranteed fresh.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED RESTAURANTS -->
+<div class="section-divider"></div>
+<section style="background:rgba(255,255,255,.02);padding:80px 0;">
+  <div class="section-wrap" style="padding-top:0;padding-bottom:0;">
+    <div class="animate-on-scroll" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:16px;">
+      <div><div class="section-tag">Featured</div><h2 class="section-title" style="margin-bottom:0">Top-Rated <span class="gradient-text">Restaurants</span></h2></div>
+      <a href="restaurants.html" class="btn btn-outline">View All 28 →</a>
+    </div>
+    <div class="restaurants-grid animate-on-scroll stagger" id="featured"></div>
+  </div>
+</section>
+
+<!-- NEW 8 RESTAURANTS -->
+<div class="section-divider"></div>
+<section style="padding:80px 0;">
+  <div class="section-wrap" style="padding-top:0;padding-bottom:0;">
+    <div class="animate-on-scroll" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:16px;">
+      <div><div class="section-tag">Just Added</div><h2 class="section-title" style="margin-bottom:0">8 <span class="gradient-text">New Restaurants</span></h2></div>
+      <a href="restaurants.html" class="btn btn-secondary">See All →</a>
+    </div>
+    <div class="restaurants-grid animate-on-scroll stagger" id="new-rests"></div>
+  </div>
+</section>
+
+<!-- GLOBAL REACH -->
+<div class="section-divider"></div>
+<section style="background:rgba(255,255,255,.02);padding:80px 48px;">
+  <div style="max-width:900px;margin:0 auto;text-align:center;" class="animate-on-scroll">
+    <div class="section-tag">Global Network</div>
+    <h2 class="section-title">Restaurants from <span class="gradient-text">Every Continent</span></h2>
+    <p class="section-sub" style="margin-bottom:44px;">USA · UK · Japan · India · Italy · France · Mexico · China · Thailand · Australia · Brazil · UAE · Spain · Turkey</p>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:44px;" id="country-chips"></div>
+    <a href="restaurants.html" class="btn btn-primary btn-lg">Explore All Restaurants →</a>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<div class="section-divider"></div>
+<section style="padding:80px 0;">
+  <div class="section-wrap" style="padding-top:0;padding-bottom:0;">
+    <div class="section-header animate-on-scroll">
+      <div class="section-tag">Reviews</div>
+      <h2 class="section-title">Loved by <span class="gradient-text">Food Lovers</span></h2>
+    </div>
+    <div class="testimonials-grid stagger animate-on-scroll" id="testimonials"></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="section-divider"></div>
+<section style="padding:80px 48px;background:linear-gradient(135deg,rgba(255,81,47,.08),rgba(0,210,255,.06));">
+  <div style="max-width:700px;margin:0 auto;text-align:center;" class="animate-on-scroll">
+    <h2 class="section-title">Ready for Something <span class="gradient-text">Amazing?</span></h2>
+    <p style="color:var(--text-m);margin-bottom:40px;">Join thousands ordering from the world's best restaurants every day.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="auth.html?tab=signup" class="btn btn-neon btn-xl">🎉 Create Free Account</a>
+      <a href="restaurants.html" class="btn btn-outline btn-xl">🍽️ Browse Menus</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo" style="margin-bottom:14px;display:inline-flex;"><div class="logo-icon">🍔</div>Feast<span class="logo-rush">Rush</span></a>
+      <p>The world's food, delivered to your door. Connecting hungry people with the best restaurants globally.</p>
+      <div class="social-links"><a href="#" class="social-btn">𝕏</a><a href="#" class="social-btn">f</a><a href="#" class="social-btn">in</a><a href="#" class="social-btn">📷</a></div>
+    </div>
+    <div class="footer-col"><h4>Explore</h4><ul><li><a href="restaurants.html">All Restaurants</a></li><li><a href="restaurants.html?filter=burgers">Burgers</a></li><li><a href="restaurants.html?filter=pizza">Pizza</a></li><li><a href="restaurants.html?filter=sushi">Sushi</a></li><li><a href="restaurants.html?filter=curry">Curry</a></li></ul></div>
+    <div class="footer-col"><h4>Account</h4><ul><li><a href="auth.html">Sign In</a></li><li><a href="auth.html?tab=signup">Register</a></li><li><a href="cart.html">My Cart</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 FeastRush. All rights reserved.</span><span>Made with ❤️ for food lovers worldwide</span></div>
+</footer>
+
+<style>
+@keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,.5)}50%{box-shadow:0 0 0 6px rgba(52,211,153,0)}}
+.country-chip{display:inline-flex;align-items:center;gap:6px;background:var(--glass);border:1px solid var(--border);padding:7px 16px;border-radius:50px;font-size:.82rem;backdrop-filter:blur(8px);transition:var(--t)}
+.country-chip:hover{border-color:var(--p1);transform:translateY(-2px)}
+</style>
+
+<script src="app.js"></script><script src="restaurants.js"></script>
+<script>
+buildNavbar('home');
+
+// Particles
+const emojis=['🍔','🍕','🍣','🌮','🍜','🥗','🍩','🍦','🥐','🍖','🥘','🍱','🧆','🥙','🍛','🍝'];
+const pc=document.getElementById('particles');
+for(let i=0;i<12;i++){
+  const p=document.createElement('div');p.className='food-particle';
+  p.style.cssText=`left:${Math.random()*100}vw;font-size:${1.2+Math.random()*1.4}rem;animation-duration:${14+Math.random()*16}s;animation-delay:${Math.random()*20}s;`;
+  p.textContent=emojis[Math.floor(Math.random()*emojis.length)];pc.appendChild(p);
+}
+
+// Hero image rotator
+const imgs=['https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&auto=format&fit=crop','https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&auto=format&fit=crop','https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&auto=format&fit=crop','https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&auto=format&fit=crop','https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&auto=format&fit=crop','https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&auto=format&fit=crop'];
+let hi=0;const imgEl=document.getElementById('hero-img');
+setInterval(()=>{hi=(hi+1)%imgs.length;imgEl.style.opacity='0';imgEl.style.transform='translateX(-50%) scale(.97)';
+  setTimeout(()=>{imgEl.src=imgs[hi];imgEl.style.opacity='1';imgEl.style.transform='';imgEl.style.transition='opacity .6s,transform .6s';},350);},3500);
+
+// Counters
+let started=false;
+new IntersectionObserver(entries=>{if(entries[0].isIntersecting&&!started){started=true;
+  document.querySelectorAll('[data-target]').forEach(el=>{
+    const tgt=parseFloat(el.dataset.target);const isF=String(tgt).includes('.');let st=null;
+    const step=ts=>{if(!st)st=ts;const p=Math.min((ts-st)/2000,1);const e=1-Math.pow(1-p,3);
+      el.textContent=isF?(tgt*e).toFixed(1):Math.floor(tgt*e).toLocaleString();if(p<1)requestAnimationFrame(step);};
+    requestAnimationFrame(step);});
+}},{threshold:.5}).observe(document.querySelector('.hero-stats'));
+
+function heroSearch(){const q=document.getElementById('hero-search').value.trim();window.location.href='restaurants.html'+(q?'?q='+encodeURIComponent(q):'');}
+
+// Card builder
+const RCARD=(r)=>{const f=FLAG_MAP[r.country]||'🌍';return`
+  <a href="menu.html?id=${r.id}" class="restaurant-card">
+    <div class="restaurant-banner"><img src="${r.image}" alt="${r.name}" loading="lazy"/>
+      <div class="restaurant-banner-overlay"></div>
+      ${r.badge?`<span class="restaurant-badge">${r.badge}</span>`:''}
+      <span class="restaurant-country-tag">${f} ${r.city}</span>
+    </div>
+    <div class="restaurant-body">
+      <div class="restaurant-name">${r.emoji} ${r.name}</div>
+      <div class="restaurant-meta"><span class="rating">⭐ ${r.rating}</span><span>⏱ ${r.deliveryTime}min</span><span>🚚 $${r.deliveryFee}</span></div>
+      <div class="restaurant-tags">${r.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+    </div>
+  </a>`;};
+
+// Categories
+const cats=[
+  {img:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=80&auto=format&fit=crop',name:'Burgers',f:'burgers'},
+  {img:'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=80&auto=format&fit=crop',name:'Pizza',f:'pizza'},
+  {img:'https://images.unsplash.com/photo-1553621042-f6e147245754?w=80&auto=format&fit=crop',name:'Sushi',f:'sushi'},
+  {img:'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=80&auto=format&fit=crop',name:'Curry',f:'curry'},
+  {img:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=80&auto=format&fit=crop',name:'Mexican',f:'mexican'},
+  {img:'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=80&auto=format&fit=crop',name:'Chinese',f:'chinese'},
+  {img:'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=80&auto=format&fit=crop',name:'BBQ',f:'bbq'},
+  {img:'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=80&auto=format&fit=crop',name:'Desserts',f:'desserts'},
+  {img:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=80&auto=format&fit=crop',name:'Salads',f:'salad'},
+  {img:'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=80&auto=format&fit=crop',name:'Japanese',f:'japanese'},
+  {img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=80&auto=format&fit=crop',name:'Italian',f:'italian'},
+  {img:'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=80&auto=format&fit=crop',name:'Seafood',f:'seafood'},
+];
+document.getElementById('cats').innerHTML=cats.map(c=>`
+  <a href="restaurants.html?filter=${c.f}" class="category-card">
+    <div class="category-img-wrap"><img src="${c.img}" alt="${c.name}" loading="lazy"/></div>
+    <span class="category-name">${c.name}</span>
+  </a>`).join('');
+
+document.getElementById('featured').innerHTML=getFeaturedRestaurants(6).map(RCARD).join('');
+document.getElementById('new-rests').innerHTML=['r_bh','r_pp','r_sm','r_sg','r_tf','r_nh','r_gh','r_sd'].map(id=>getRestaurantById(id)).filter(Boolean).slice(0,6).map(RCARD).join('');
+
+const countries=[{f:'🇺🇸',n:'USA'},{f:'🇬🇧',n:'UK'},{f:'🇯🇵',n:'Japan'},{f:'🇮🇳',n:'India'},{f:'🇮🇹',n:'Italy'},{f:'🇫🇷',n:'France'},{f:'🇲🇽',n:'Mexico'},{f:'🇨🇳',n:'China'},{f:'🇹🇭',n:'Thailand'},{f:'🇦🇺',n:'Australia'},{f:'🇧🇷',n:'Brazil'},{f:'🇦🇪',n:'UAE'},{f:'🇪🇸',n:'Spain'},{f:'🇹🇷',n:'Turkey'}];
+document.getElementById('country-chips').innerHTML=countries.map(c=>`<div class="country-chip"><span style="font-size:1.2rem">${c.f}</span>${c.n}</div>`).join('');
+
+const reviews=[
+  {t:"Ordered sushi from Sushi Master — fresh, precise, and delivered fast. FeastRush is next level!",n:"Sarah M.",l:"New York, USA",c:"#FF512F"},
+  {t:"The Butter Chicken from Spice Garden tasted exactly like my grandmother's recipe. Magical!",n:"Raj Patel",l:"London, UK",c:"#00D2FF"},
+  {t:"Taco Fiesta's al pastor is the best outside Mexico City. Real photos made ordering so easy!",n:"Carlos V.",l:"Miami, USA",c:"#34D399"},
+  {t:"Pizza Palace's Margherita Classica is mind-blowing. Proper Neapolitan style, incredible quality!",n:"Emma Chen",l:"Sydney, Australia",c:"#FCD34D"},
+  {t:"Burger House delivered the juiciest smash burger I've ever had. Photos look exactly like the real thing!",n:"Mike J.",l:"Chicago, USA",c:"#7C3AED"},
+  {t:"The admin dashboard is so clean. Managing our restaurant on FeastRush has been a total game changer!",n:"Aisha Al-F.",l:"Dubai, UAE",c:"#F09819"},
+];
+document.getElementById('testimonials').innerHTML=reviews.map(r=>`
+  <div class="testimonial-card">
+    <div style="color:var(--gold);font-size:.9rem;margin-bottom:14px;letter-spacing:2px;">★★★★★</div>
+    <p class="testimonial-text">"${r.t}"</p>
+    <div class="testimonial-author">
+      <div class="author-avatar" style="background:linear-gradient(135deg,${r.c},${r.c}99)">${r.n.charAt(0)}</div>
+      <div><div class="author-name">${r.n}</div><div class="author-location">📍 ${r.l}</div></div>
+    </div>
+  </div>`).join('');
+
+initScrollAnimations();
+</script>
+</body>
+</html>

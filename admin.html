@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin Dashboard – FeastRush</title><link rel="stylesheet" href="styles.css"/>
+<style>
+.kpi-1{background:linear-gradient(135deg,rgba(255,81,47,.15),rgba(240,152,25,.08));border-color:rgba(255,81,47,.25)!important}
+.kpi-2{background:linear-gradient(135deg,rgba(0,210,255,.12),rgba(58,123,213,.06));border-color:rgba(0,210,255,.25)!important}
+.kpi-3{background:linear-gradient(135deg,rgba(52,211,153,.12),rgba(17,153,142,.06));border-color:rgba(52,211,153,.25)!important}
+.kpi-4{background:linear-gradient(135deg,rgba(252,211,77,.12),rgba(245,158,11,.06));border-color:rgba(252,211,77,.25)!important}
+</style></head>
+<body>
+<div class="bg-particles" style="position:fixed;"><div class="bg-orb bg-orb-1" style="opacity:.06;"></div><div class="bg-orb bg-orb-2" style="opacity:.06;"></div></div>
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-logo">
+      <div class="logo-icon" style="width:36px;height:36px;background:var(--grad-primary);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:var(--glow);flex-shrink:0;">🍔</div>
+      <div><div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;">Feast<span style="color:var(--p1)">Rush</span></div><div style="font-size:.65rem;color:var(--text-f);margin-top:1px;">Admin Panel</div></div>
+    </div>
+    <nav class="admin-nav">
+      <div class="admin-nav-section">
+        <div class="admin-nav-section-title">Overview</div>
+        <button class="admin-nav-item active" onclick="showSec('dashboard',this)"><span class="nav-icon">📊</span> Dashboard</button>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-section-title">Management</div>
+        <button class="admin-nav-item" onclick="showSec('orders',this)"><span class="nav-icon">🛒</span> Orders<span class="nav-badge" id="pend-badge">0</span></button>
+        <button class="admin-nav-item" onclick="showSec('restaurants',this)"><span class="nav-icon">🍽️</span> Restaurants</button>
+        <button class="admin-nav-item" onclick="showSec('users',this)"><span class="nav-icon">👥</span> Users</button>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-section-title">System</div>
+        <button class="admin-nav-item" onclick="showSec('settings',this)"><span class="nav-icon">⚙️</span> Settings</button>
+        <button class="admin-nav-item" style="color:var(--danger);" onclick="logout()"><span class="nav-icon">🚪</span> Sign Out</button>
+      </div>
+    </nav>
+    <div style="padding:16px 20px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+      <div class="admin-avatar" style="width:34px;height:34px;font-size:.8rem;flex-shrink:0;">A</div>
+      <div style="overflow:hidden;"><div style="font-size:.82rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Admin</div><div style="font-size:.68rem;color:var(--text-f);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">sonuch2288@gmail.com</div></div>
+    </div>
+  </aside>
+  <!-- MAIN -->
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div><div class="admin-topbar-title" id="pg-title">Dashboard</div><div style="font-size:.76rem;color:var(--text-f);" id="pg-sub">Welcome back, Admin</div></div>
+      <div class="admin-topbar-actions">
+        <a href="index.html" target="_blank" class="btn btn-outline btn-sm">🌐 View Site</a>
+        <a href="restaurants.html" target="_blank" class="btn btn-secondary btn-sm">🍽️ Restaurants</a>
+        <div class="admin-avatar">A</div>
+      </div>
+    </div>
+    <div class="admin-content">
+
+      <!-- DASHBOARD -->
+      <div class="admin-section active" id="section-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card kpi-1"><div class="stat-card-icon">🛒</div><span class="stat-card-value" id="s-orders">0</span><div class="stat-card-label">Total Orders</div><span class="stat-card-trend up" id="s-pend">↑ 0 pending</span></div>
+          <div class="stat-card kpi-2"><div class="stat-card-icon">💰</div><span class="stat-card-value" id="s-rev">$0</span><div class="stat-card-label">Total Revenue</div><span class="stat-card-trend up">↑ All time</span></div>
+          <div class="stat-card kpi-3"><div class="stat-card-icon">👥</div><span class="stat-card-value" id="s-users">0</span><div class="stat-card-label">Registered Users</div><span class="stat-card-trend up">↑ Growing</span></div>
+          <div class="stat-card kpi-4"><div class="stat-card-icon">🍽️</div><span class="stat-card-value">28</span><div class="stat-card-label">Active Restaurants</div><span class="stat-card-trend up">🌍 14 Countries</span></div>
+        </div>
+        <div class="charts-grid">
+          <div class="chart-card"><h3>📈 Orders This Week</h3><div class="bar-chart" id="week-chart"></div></div>
+          <div class="chart-card"><h3>🥧 Revenue by Cuisine</h3><div class="donut-chart-wrap"><svg viewBox="0 0 100 100" width="150" height="150" id="donut-svg"><circle cx="50" cy="50" r="35" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="18"/></svg><div class="donut-legend" id="donut-leg"></div></div></div>
+        </div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-header"><h3>Recent Orders</h3><button class="btn btn-outline btn-sm" onclick="showSec('orders',document.querySelectorAll('.admin-nav-item')[1])">View All →</button></div>
+          <table class="admin-table"><thead><tr><th>Order ID</th><th>Customer</th><th>Restaurant</th><th>Total</th><th>Status</th><th>Time</th><th>Action</th></tr></thead><tbody id="rec-orders"></tbody></table>
+        </div>
+      </div>
+
+      <!-- ORDERS -->
+      <div class="admin-section" id="section-orders">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+          <div><h2 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:#fff;">Order Management</h2><p style="color:var(--text-m);font-size:.83rem;">Manage and update all customer orders</p></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <select class="form-input" style="width:auto;padding:9px 36px 9px 12px;font-size:.8rem;" id="ord-filter" onchange="renderOrders()">
+              <option value="all">All Statuses</option><option value="pending">Pending</option><option value="preparing">Preparing</option><option value="on-the-way">On the Way</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option>
+            </select>
+            <input type="text" class="form-input" style="width:200px;padding:9px 14px;font-size:.8rem;" placeholder="Search orders…" id="ord-search" oninput="renderOrders()"/>
+          </div>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table"><thead><tr><th>Order ID</th><th>Customer</th><th>Restaurant</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody id="ord-body"></tbody></table>
+          <div id="ord-empty" style="display:none;text-align:center;padding:60px;color:var(--text-m);"><div style="font-size:3rem;margin-bottom:12px;">📭</div><p>No orders found</p></div>
+        </div>
+      </div>
+
+      <!-- RESTAURANTS -->
+      <div class="admin-section" id="section-restaurants">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+          <div><h2 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:#fff;">Restaurant Management</h2><p style="color:var(--text-m);font-size:.83rem;">28 globally auto-generated restaurants · 14 countries</p></div>
+          <input type="text" class="form-input" style="width:220px;padding:9px 14px;font-size:.8rem;" placeholder="Search restaurants…" id="rest-search" oninput="renderRests()"/>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table"><thead><tr><th>Restaurant</th><th>Location</th><th>Cuisine</th><th>Rating</th><th>Delivery</th><th>Min. Order</th><th>Actions</th></tr></thead><tbody id="rest-body"></tbody></table>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div class="admin-section" id="section-users">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+          <div><h2 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:#fff;">User Management</h2><p style="color:var(--text-m);font-size:.83rem;">All registered customer accounts</p></div>
+          <span id="user-badge" style="background:rgba(255,81,47,.12);color:var(--p1);padding:6px 16px;border-radius:50px;font-size:.82rem;font-weight:700;border:1px solid rgba(255,81,47,.2);"></span>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table"><thead><tr><th>User</th><th>Email</th><th>Phone</th><th>Joined</th><th>Orders</th><th>Spent</th></tr></thead><tbody id="users-body"></tbody></table>
+          <div id="users-empty" style="display:none;text-align:center;padding:60px;color:var(--text-m);"><div style="font-size:3rem;margin-bottom:12px;">👥</div><p>No registered users yet. <a href="auth.html" style="color:var(--p1);">Sign up page →</a></p></div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="admin-section" id="section-settings">
+        <h2 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:24px;">Settings</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;">
+          <div class="checkout-form-section"><h3 class="section-h2">Admin Account</h3>
+            <div class="form-group"><label class="form-label">Admin Email</label><input class="form-input" value="sonuch2288@gmail.com" readonly style="opacity:.6;cursor:not-allowed;"/></div>
+            <div class="form-group"><label class="form-label">Display Name</label><input class="form-input" value="Admin" id="set-name"/></div>
+            <button class="btn btn-primary" onclick="showToast('Settings saved!','success')">Save Changes</button>
+          </div>
+          <div class="checkout-form-section"><h3 class="section-h2">Platform Stats</h3>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <div style="display:flex;justify-content:space-between;font-size:.86rem;"><span style="color:var(--text-m)">Total Restaurants</span><strong style="color:#fff">28</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:.86rem;"><span style="color:var(--text-m)">Countries Covered</span><strong style="color:#fff">14</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:.86rem;"><span style="color:var(--text-m)">Total Menu Items</span><strong id="menu-count" style="color:var(--price)">—</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:.86rem;"><span style="color:var(--text-m)">New Restaurants</span><strong style="color:var(--price)">8 added</strong></div>
+            </div>
+          </div>
+          <div class="checkout-form-section"><h3 class="section-h2">Delivery Settings</h3>
+            <div class="form-group"><label class="form-label">Default Fee ($)</label><input type="number" class="form-input" value="2.99" step="0.01"/></div>
+            <div class="form-group"><label class="form-label">Tax Rate (%)</label><input type="number" class="form-input" value="8"/></div>
+            <button class="btn btn-primary" onclick="showToast('Delivery settings saved!','success')">Save</button>
+          </div>
+          <div class="checkout-form-section"><h3 class="section-h2">Data Management</h3>
+            <p style="color:var(--text-m);font-size:.84rem;margin-bottom:16px;">Manage stored orders and user data.</p>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <button class="btn btn-outline" onclick="exportData()">📥 Export Orders (JSON)</button>
+              <button class="btn btn-danger btn-sm" onclick="if(confirm('Clear ALL orders?')){localStorage.removeItem('fr_orders');renderDash();showToast('Orders cleared.','info');}">🗑️ Clear All Orders</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="ord-modal">
+  <div class="modal" style="max-width:580px;">
+    <div class="modal-header"><h3>📋 Order Details</h3><button class="modal-close" onclick="document.getElementById('ord-modal').classList.remove('open')">✕</button></div>
+    <div id="ord-modal-content"></div>
+  </div>
+</div>
+
+<script src="app.js"></script><script src="restaurants.js"></script>
+<script>
+if(!requireAdmin()){}
+const pgTitles={dashboard:'Dashboard',orders:'Order Management',restaurants:'Restaurants',users:'Users',settings:'Settings'};
+
+function showSec(id,btn){
+  document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.admin-nav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('section-'+id).classList.add('active');
+  if(btn)btn.classList.add('active');
+  document.getElementById('pg-title').textContent=pgTitles[id]||id;
+  if(id==='orders')renderOrders();
+  if(id==='restaurants')renderRests();
+  if(id==='users')renderUsers();
+  if(id==='settings'){const el=document.getElementById('menu-count');if(el)el.textContent=getAllRestaurants().reduce((s,r)=>s+r.menu.reduce((ms,c)=>ms+c.items.length,0),0);}
+}
+
+// Seed demo orders
+function seed(){
+  if(AppState.orders.length>0)return;
+  const list=getAllRestaurants();
+  const statuses=['pending','preparing','on-the-way','delivered','delivered','delivered','cancelled'];
+  const names=['Alice Johnson','Bob Smith','Maria Garcia','Wei Chen','Emma Brown','Carlos Rivera','Sarah Kim','David Park','Priya Sharma','James Wilson'];
+  for(let i=0;i<14;i++){
+    const r=list[Math.floor(Math.random()*list.length)];
+    const cat=r.menu[Math.floor(Math.random()*r.menu.length)];
+    const itm=cat.items[Math.floor(Math.random()*cat.items.length)];
+    const qty=Math.floor(Math.random()*3)+1;const sub=itm.price*qty;const fee=r.deliveryFee;const tax=sub*.08;
+    AppState.addOrder({id:'FR-'+Math.random().toString(36).substring(2,9).toUpperCase(),userId:'demo_'+i,userName:names[i%names.length],userEmail:names[i%names.length].toLowerCase().replace(' ','.')+`@example.com`,restaurant:r.name,restaurantId:r.id,restaurantImage:r.image,items:[{...itm,qty,restaurantName:r.name}],subtotal:sub,deliveryFee:fee,tax,total:sub+fee+tax,payment:['card','paypal','cash'][i%3],address:`${100+i*7} Main Street, City`,notes:'',status:statuses[i%statuses.length],createdAt:new Date(Date.now()-(i*3600000*(1+Math.random()*4))).toISOString(),estimatedDelivery:new Date(Date.now()+20*60000).toISOString()});
+  }
+}
+seed();
+
+function renderDash(){
+  const orders=AppState.orders,users=AppState.users;
+  const pend=orders.filter(o=>o.status==='pending').length;
+  document.getElementById('s-orders').textContent=orders.length;
+  document.getElementById('s-rev').textContent='$'+orders.reduce((s,o)=>s+(o.total||0),0).toFixed(0);
+  document.getElementById('s-users').textContent=users.length;
+  document.getElementById('s-pend').textContent='↑ '+pend+' pending';
+  document.getElementById('pend-badge').textContent=pend;
+  // Recent orders
+  const tbody=document.getElementById('rec-orders');
+  const recent=orders.slice(0,7);
+  if(!recent.length){tbody.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-m);">No orders yet</td></tr>`;return;}
+  tbody.innerHTML=recent.map(o=>`<tr>
+    <td><code style="color:var(--p1);font-size:.78rem;">${o.id}</code></td>
+    <td style="font-size:.85rem;">${o.userName||'Guest'}</td>
+    <td><div style="display:flex;align-items:center;gap:6px;">${o.restaurantImage?`<img src="${o.restaurantImage}" style="width:24px;height:24px;border-radius:6px;object-fit:cover;"/>`:''}
+    <span style="font-size:.83rem;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.restaurant}</span></div></td>
+    <td><strong style="color:var(--price);">$${(o.total||0).toFixed(2)}</strong></td>
+    <td>${sBadge(o.status)}</td>
+    <td style="font-size:.75rem;color:var(--text-f);">${formatDate(o.createdAt)}</td>
+    <td><button class="btn btn-outline btn-sm" onclick="viewOrder('${o.id}')">View</button></td>
+  </tr>`).join('');
+  // Bar chart
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const counts=days.map((_,i)=>orders.filter(o=>new Date(o.createdAt).getDay()===(i+1)%7).length+Math.floor(Math.random()*4));
+  const mx=Math.max(...counts,1);
+  document.getElementById('week-chart').innerHTML=days.map((d,i)=>`<div class="bar-item"><div class="bar" style="height:${Math.max((counts[i]/mx)*100,4)}%;"></div><span class="bar-label">${d}</span></div>`).join('');
+  // Donut
+  const cats=[{l:'American',c:'#FF512F',p:26},{l:'Asian',c:'#00D2FF',p:22},{l:'Indian',c:'#FCD34D',p:20},{l:'Italian',c:'#34D399',p:16},{l:'Other',c:'#7C3AED',p:16}];
+  let off=0;const r=35,ci=2*Math.PI*r;
+  document.getElementById('donut-svg').innerHTML=`<circle cx="50" cy="50" r="${r}" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="18"/>`+cats.map(cat=>{const d=(cat.p/100)*ci,g=ci-d,rot=(off/100)*360;off+=cat.p;return`<circle cx="50" cy="50" r="${r}" fill="none" stroke="${cat.c}" stroke-width="18" stroke-dasharray="${d} ${g}" transform="rotate(${rot-90} 50 50)" style="filter:drop-shadow(0 0 6px ${cat.c}66)"/>`;}).join('');
+  document.getElementById('donut-leg').innerHTML=cats.map(c=>`<div class="legend-item"><div class="legend-dot" style="background:${c.c};box-shadow:0 0 8px ${c.c}66;"></div><span class="legend-label">${c.l}</span><span class="legend-value">${c.p}%</span></div>`).join('');
+}
+
+function renderOrders(){
+  const sf=document.getElementById('ord-filter').value,sq=(document.getElementById('ord-search').value||'').toLowerCase();
+  let orders=AppState.orders;
+  if(sf!=='all')orders=orders.filter(o=>o.status===sf);
+  if(sq)orders=orders.filter(o=>o.id.toLowerCase().includes(sq)||(o.userName||'').toLowerCase().includes(sq)||(o.restaurant||'').toLowerCase().includes(sq));
+  const tbody=document.getElementById('ord-body'),empty=document.getElementById('ord-empty');
+  if(!orders.length){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=orders.map(o=>`<tr>
+    <td><code style="color:var(--p1);font-size:.76rem;">${o.id}</code></td>
+    <td><div style="font-weight:600;font-size:.85rem;">${o.userName||'Guest'}</div><div style="font-size:.73rem;color:var(--text-f);">${o.userEmail||''}</div></td>
+    <td><div style="display:flex;align-items:center;gap:6px;">${o.restaurantImage?`<img src="${o.restaurantImage}" style="width:28px;height:28px;border-radius:6px;object-fit:cover;flex-shrink:0;"/>`:''}
+    <span style="font-size:.83rem;">${o.restaurant||'—'}</span></div></td>
+    <td style="font-size:.78rem;color:var(--text-m);">${(o.items||[]).length} item(s)</td>
+    <td><strong style="color:var(--price);">$${(o.total||0).toFixed(2)}</strong></td>
+    <td>${sBadge(o.status)}</td>
+    <td style="font-size:.73rem;color:var(--text-f);">${formatDate(o.createdAt)}</td>
+    <td><div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <button class="btn btn-outline btn-sm" onclick="viewOrder('${o.id}')">View</button>
+      <select class="form-input" style="padding:5px 28px 5px 8px;font-size:.72rem;width:auto;" onchange="updateStatus('${o.id}',this.value)">
+        <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
+        <option value="preparing" ${o.status==='preparing'?'selected':''}>Preparing</option>
+        <option value="on-the-way" ${o.status==='on-the-way'?'selected':''}>On the Way</option>
+        <option value="delivered" ${o.status==='delivered'?'selected':''}>Delivered</option>
+        <option value="cancelled" ${o.status==='cancelled'?'selected':''}>Cancelled</option>
+      </select>
+    </div></td>
+  </tr>`).join('');
+}
+
+function updateStatus(id,status){
+  const orders=AppState.orders;const o=orders.find(x=>x.id===id);
+  if(o){o.status=status;localStorage.setItem('fr_orders',JSON.stringify(orders));renderOrders();renderDash();showToast(`Order ${id} → ${status}`,'success');}
+}
+
+function renderRests(){
+  const sq=(document.getElementById('rest-search').value||'').toLowerCase();
+  let list=getAllRestaurants();
+  if(sq)list=list.filter(r=>r.name.toLowerCase().includes(sq)||r.city.toLowerCase().includes(sq)||r.country.toLowerCase().includes(sq));
+  document.getElementById('rest-body').innerHTML=list.map(r=>`<tr>
+    <td><div style="display:flex;align-items:center;gap:10px;">
+      <img src="${r.image}" alt="${r.name}" style="width:44px;height:44px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border);"/>
+      <div><div style="font-weight:700;font-size:.86rem;">${r.name}</div>${r.badge?`<span style="font-size:.68rem;background:rgba(52,211,153,.12);color:var(--price);padding:2px 8px;border-radius:50px;">${r.badge}</span>`:''}</div>
+    </div></td>
+    <td style="font-size:.82rem;">${FLAG_MAP[r.country]||'🌍'} ${r.city}, ${r.country}</td>
+    <td style="font-size:.76rem;color:var(--text-m);">${r.tags.join(' · ')}</td>
+    <td><span style="color:var(--gold);font-weight:700;">⭐ ${r.rating}</span></td>
+    <td style="font-size:.82rem;color:var(--text-m);">⏱ ${r.deliveryTime} min</td>
+    <td style="font-size:.82rem;color:var(--price);">$${r.minOrder}</td>
+    <td><a href="menu.html?id=${r.id}" class="btn btn-outline btn-sm" target="_blank">View Menu</a></td>
+  </tr>`).join('');
+}
+
+function renderUsers(){
+  const users=AppState.users,orders=AppState.orders;
+  const tbody=document.getElementById('users-body'),empty=document.getElementById('users-empty');
+  document.getElementById('user-badge').textContent=users.length+' users';
+  if(!users.length){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=users.map(u=>{
+    const uo=orders.filter(o=>o.userEmail===u.email);const spent=uo.reduce((s,o)=>s+(o.total||0),0);
+    return`<tr>
+      <td><div style="display:flex;align-items:center;gap:10px;"><div style="width:34px;height:34px;background:var(--grad-primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:800;flex-shrink:0;">${u.name.charAt(0).toUpperCase()}</div><span style="font-weight:600;font-size:.86rem;">${u.name}</span></div></td>
+      <td style="font-size:.82rem;">${u.email}</td>
+      <td style="font-size:.8rem;color:var(--text-m);">${u.phone||'—'}</td>
+      <td style="font-size:.75rem;color:var(--text-f);">${u.createdAt?formatDate(u.createdAt):'—'}</td>
+      <td><strong>${uo.length}</strong></td>
+      <td><strong style="color:var(--price);">$${spent.toFixed(2)}</strong></td>
+    </tr>`;}).join('');
+}
+
+function viewOrder(id){
+  const o=AppState.orders.find(x=>x.id===id);if(!o)return;
+  document.getElementById('ord-modal-content').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;font-size:.84rem;">
+      <div><div style="color:var(--text-f);margin-bottom:3px;">Order ID</div><div style="font-weight:700;color:var(--p1);">${o.id}</div></div>
+      <div><div style="color:var(--text-f);margin-bottom:3px;">Status</div>${sBadge(o.status)}</div>
+      <div><div style="color:var(--text-f);margin-bottom:3px;">Customer</div><strong>${o.userName}</strong></div>
+      <div><div style="color:var(--text-f);margin-bottom:3px;">Payment</div><strong style="text-transform:capitalize">${o.payment}</strong></div>
+      <div style="grid-column:1/-1"><div style="color:var(--text-f);margin-bottom:3px;">Restaurant</div>
+        <div style="display:flex;align-items:center;gap:8px;">${o.restaurantImage?`<img src="${o.restaurantImage}" style="width:28px;height:28px;border-radius:6px;object-fit:cover;"/>`:''}<strong>${o.restaurant}</strong></div></div>
+      <div style="grid-column:1/-1"><div style="color:var(--text-f);margin-bottom:3px;">Address</div><span>${o.address}</span></div>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:18px;">
+      ${(o.items||[]).map(i=>`<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04);">
+        <img src="${i.image||''}" style="width:40px;height:40px;border-radius:8px;object-fit:cover;flex-shrink:0;"/>
+        <span style="flex:1;font-size:.84rem;">${i.name}</span>
+        <span style="color:var(--text-m);font-size:.8rem;">×${i.qty}</span>
+        <span style="font-weight:700;color:var(--price);">$${(i.price*i.qty).toFixed(2)}</span>
+      </div>`).join('')}
+      <div style="padding:12px 14px;display:flex;justify-content:space-between;font-weight:800;background:rgba(255,255,255,.02);">
+        <span>Total</span><span style="color:var(--price);">$${(o.total||0).toFixed(2)}</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <label style="font-size:.8rem;color:var(--text-m);white-space:nowrap;">Update Status:</label>
+      <select class="form-input" style="padding:8px 32px 8px 10px;font-size:.82rem;flex:1;" onchange="updateStatus('${o.id}',this.value);document.getElementById('ord-modal').classList.remove('open');">
+        <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
+        <option value="preparing" ${o.status==='preparing'?'selected':''}>Preparing</option>
+        <option value="on-the-way" ${o.status==='on-the-way'?'selected':''}>On the Way</option>
+        <option value="delivered" ${o.status==='delivered'?'selected':''}>Delivered</option>
+        <option value="cancelled" ${o.status==='cancelled'?'selected':''}>Cancelled</option>
+      </select>
+    </div>`;
+  document.getElementById('ord-modal').classList.add('open');
+}
+
+document.getElementById('ord-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
+
+function exportData(){const b=new Blob([JSON.stringify(AppState.orders,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='feastrush-orders-'+new Date().toISOString().split('T')[0]+'.json';a.click();}
+
+function sBadge(s){const m={pending:`<span class="status-badge pending">⏳ Pending</span>`,preparing:`<span class="status-badge preparing">👨‍🍳 Preparing</span>`,'on-the-way':`<span class="status-badge on-the-way">🛵 On the Way</span>`,delivered:`<span class="status-badge delivered">✅ Delivered</span>`,cancelled:`<span class="status-badge cancelled">❌ Cancelled</span>`};return m[s]||`<span class="status-badge">${s}</span>`;}
+
+renderDash();
+</script>
+</body>
+</html>

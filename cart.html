@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Cart & Checkout – FeastRush</title><link rel="stylesheet" href="styles.css"/>
+<style>
+.cart-item-full{display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid var(--border)}
+.cart-item-full:last-child{border:none}
+.cart-item-full img{width:70px;height:70px;border-radius:12px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)}
+</style></head>
+<body>
+<div class="bg-particles"><div class="bg-orb bg-orb-1"></div><div class="bg-orb bg-orb-2"></div></div>
+<div id="navbar-container"></div>
+<div class="cart-page">
+  <div style="max-width:1100px;margin:0 auto;padding:40px 48px 0;position:relative;z-index:1;">
+    <a href="restaurants.html" style="color:var(--text-m);text-decoration:none;font-size:.85rem;">← Continue Shopping</a>
+    <h1 style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin:16px 0 4px;color:#fff;">🛒 Your Cart</h1>
+    <p id="cart-sub" style="color:var(--text-m);font-size:.88rem;"></p>
+  </div>
+  <div id="empty-state" style="display:none;text-align:center;padding:100px 40px;position:relative;z-index:1;">
+    <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=200&auto=format&fit=crop" style="width:120px;height:120px;object-fit:cover;border-radius:50%;opacity:.4;margin-bottom:24px;"/>
+    <h2 style="color:#fff;margin-bottom:12px;">Your cart is empty</h2>
+    <p style="color:var(--text-m);margin-bottom:32px;">Explore amazing restaurants and add something delicious!</p>
+    <a href="restaurants.html" class="btn btn-primary btn-lg">Browse Restaurants</a>
+  </div>
+  <div class="cart-page-container" id="cart-content">
+    <div>
+      <div class="checkout-form-section" id="items-box">
+        <h2 class="section-h2">Order Items</h2>
+        <div id="items-list"></div>
+      </div>
+      <div class="checkout-form-section">
+        <h2 class="section-h2">📍 Delivery Details</h2>
+        <form id="co-form" onsubmit="placeOrder(event)">
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-input" id="co-name" placeholder="John Doe" required/></div>
+            <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" id="co-phone" placeholder="+1 234 567 8900" required/></div>
+          </div>
+          <div class="form-group"><label class="form-label">Address</label><input type="text" class="form-input" id="co-addr" placeholder="123 Main Street, Apt 4B" required/></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">City</label><input type="text" class="form-input" id="co-city" placeholder="New York" required/></div>
+            <div class="form-group"><label class="form-label">ZIP Code</label><input type="text" class="form-input" id="co-zip" placeholder="10001" required/></div>
+          </div>
+          <div class="form-group"><label class="form-label">Notes (optional)</label><input type="text" class="form-input" id="co-notes" placeholder="Leave at door, ring bell, etc."/></div>
+          <h2 class="section-h2" style="margin-top:28px;">💳 Payment Method</h2>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">
+            <div class="payment-option active" data-m="card" onclick="selPay(this)"><div style="font-size:1.6rem;margin-bottom:8px">💳</div><div style="font-size:.8rem;font-weight:700;">Credit Card</div></div>
+            <div class="payment-option" data-m="paypal" onclick="selPay(this)"><div style="font-size:1.6rem;margin-bottom:8px">🅿️</div><div style="font-size:.8rem;font-weight:700;">PayPal</div></div>
+            <div class="payment-option" data-m="cash" onclick="selPay(this)"><div style="font-size:1.6rem;margin-bottom:8px">💵</div><div style="font-size:.8rem;font-weight:700;">Cash on Delivery</div></div>
+          </div>
+          <div id="card-fields">
+            <div class="form-group"><label class="form-label">Card Number</label><input type="text" class="form-input" id="c-num" placeholder="•••• •••• •••• ••••" maxlength="19" oninput="fmtCard(this)"/></div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Expiry</label><input type="text" class="form-input" id="c-exp" placeholder="MM/YY" maxlength="5" oninput="fmtExp(this)"/></div>
+              <div class="form-group"><label class="form-label">CVV</label><input type="text" class="form-input" id="c-cvv" placeholder="•••" maxlength="4"/></div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-neon" style="width:100%;justify-content:center;padding:15px;font-size:1rem;margin-top:8px;" id="order-btn">🎉 Place Order</button>
+        </form>
+      </div>
+    </div>
+    <div>
+      <div class="order-summary-box" style="margin-bottom:16px;">
+        <h3 class="section-h2">📋 Order Summary</h3>
+        <div id="sum-items" style="margin-bottom:16px;max-height:280px;overflow-y:auto;"></div>
+        <div style="border-top:1px solid var(--border);padding-top:16px;">
+          <div class="cart-total-row"><span>Subtotal</span><span id="sum-sub">$0.00</span></div>
+          <div class="cart-total-row"><span>Delivery Fee</span><span id="sum-fee">$0.00</span></div>
+          <div class="cart-total-row"><span>Tax (8%)</span><span id="sum-tax">$0.00</span></div>
+          <div class="cart-total-row grand"><span>Total</span><span id="sum-tot">$0.00</span></div>
+        </div>
+        <div style="margin-top:16px;padding:14px;background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.2);border-radius:var(--r);font-size:.8rem;color:var(--price);">✅ Protected by FeastRush Guarantee</div>
+      </div>
+      <div class="order-summary-box">
+        <h3 style="font-size:.9rem;font-weight:700;margin-bottom:12px;color:#fff;">🎟️ Promo Code</h3>
+        <div style="display:flex;gap:8px;"><input type="text" class="form-input" placeholder="Enter code" id="promo" style="flex:1;padding:10px 14px;"/><button class="btn btn-outline btn-sm" onclick="applyPromo()">Apply</button></div>
+        <div id="promo-msg" style="font-size:.78rem;margin-top:8px;display:none;"></div>
+        <div style="margin-top:10px;font-size:.74rem;color:var(--text-f);">Try: FEAST10 · WELCOME</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="success-modal">
+  <div class="modal" style="text-align:center;max-width:460px;">
+    <img id="s-img" src="" style="width:100%;height:160px;object-fit:cover;border-radius:var(--rl);margin-bottom:20px;"/>
+    <div style="font-size:3rem;margin-bottom:12px;">🎉</div>
+    <h2 style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:8px;">Order Confirmed!</h2>
+    <p style="color:var(--text-m);font-size:.88rem;margin-bottom:6px;" id="s-id"></p>
+    <p style="color:var(--text-m);font-size:.85rem;margin-bottom:24px;" id="s-rest"></p>
+    <div style="background:rgba(255,81,47,.08);border:1px solid rgba(255,81,47,.2);border-radius:var(--r);padding:18px;margin-bottom:24px;">
+      <div style="font-size:.82rem;color:var(--text-m);">Estimated Delivery</div>
+      <div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--p1);margin-top:4px;" id="s-time"></div>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <a href="restaurants.html" class="btn btn-primary">Order More Food</a>
+      <a href="index.html" class="btn btn-outline">Back to Home</a>
+    </div>
+  </div>
+</div>
+<script src="app.js"></script><script src="restaurants.js"></script>
+<script>
+buildNavbar('cart');
+let selPayment='card';
+function selPay(el){document.querySelectorAll('.payment-option').forEach(o=>o.classList.remove('active'));el.classList.add('active');selPayment=el.dataset.m;document.getElementById('card-fields').style.display=selPayment==='card'?'block':'none';}
+function fmtCard(el){let v=el.value.replace(/\D/g,'').substring(0,16);el.value=v.replace(/(.{4})/g,'$1 ').trim();}
+function fmtExp(el){let v=el.value.replace(/\D/g,'').substring(0,4);if(v.length>=3)v=v.substring(0,2)+'/'+v.substring(2);el.value=v;}
+
+function renderPage(){
+  const cart=AppState.cart;
+  const empty=document.getElementById('empty-state'),content=document.getElementById('cart-content');
+  if(!cart.length){empty.style.display='block';content.style.display='none';document.getElementById('cart-sub').textContent='';return;}
+  empty.style.display='none';content.style.display='grid';
+  const n=getCartCount();document.getElementById('cart-sub').textContent=`${n} item${n!==1?'s':''} ready to order`;
+  document.getElementById('items-list').innerHTML=cart.map(i=>`
+    <div class="cart-item-full">
+      <img src="${i.image||'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=100&auto=format&fit=crop'}" alt="${i.name}"/>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:.92rem;color:#fff;margin-bottom:3px;">${i.name}</div>
+        ${i.restaurantName?`<div style="font-size:.75rem;color:var(--text-m);">from ${i.restaurantName}</div>`:''}
+        <div style="font-size:.82rem;color:var(--price);font-weight:700;margin-top:4px;">$${i.price.toFixed(2)} each</div>
+      </div>
+      <div class="qty-control">
+        <button class="qty-btn" onclick="updateQty('${i.id}',-1);renderPage()">−</button>
+        <span class="qty-value">${i.qty}</span>
+        <button class="qty-btn" onclick="updateQty('${i.id}',1);renderPage()">+</button>
+      </div>
+      <div style="min-width:68px;text-align:right;">
+        <div style="font-weight:800;color:var(--price);font-size:1rem;">$${(i.price*i.qty).toFixed(2)}</div>
+        <button onclick="removeFromCart('${i.id}');renderPage()" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:.75rem;margin-top:4px;">Remove</button>
+      </div>
+    </div>`).join('');
+
+  const firstR=cart[0]?.restaurantId?getRestaurantById(cart[0].restaurantId):null;
+  const fee=firstR?firstR.deliveryFee:2.99;
+  const sub=getCartTotal(),tax=sub*.08,tot=sub+fee+tax;
+  document.getElementById('sum-items').innerHTML=cart.map(i=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:6px 0;font-size:.82rem;border-bottom:1px solid rgba(255,255,255,.04);">
+      <img src="${i.image||''}" style="width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0;"/>
+      <span style="flex:1;color:var(--text-m);">${i.name} × ${i.qty}</span>
+      <span style="font-weight:700;color:#fff;">$${(i.price*i.qty).toFixed(2)}</span>
+    </div>`).join('');
+  document.getElementById('sum-sub').textContent=formatCurrency(sub);
+  document.getElementById('sum-fee').textContent=formatCurrency(fee);
+  document.getElementById('sum-tax').textContent=formatCurrency(tax);
+  document.getElementById('sum-tot').textContent=formatCurrency(tot);
+  const user=AppState.currentUser;
+  if(user){if(!document.getElementById('co-name').value)document.getElementById('co-name').value=user.name||'';if(!document.getElementById('co-phone').value)document.getElementById('co-phone').value=user.phone||'';}
+}
+
+function applyPromo(){
+  const code=document.getElementById('promo').value.trim().toUpperCase();
+  const el=document.getElementById('promo-msg');el.style.display='block';
+  if(code==='FEAST10'){el.style.color='var(--price)';el.textContent='✅ 10% discount applied!';}
+  else if(code==='WELCOME'){el.style.color='var(--price)';el.textContent='✅ Free delivery applied!';}
+  else{el.style.color='var(--danger)';el.textContent='❌ Invalid promo code.';}
+}
+
+function placeOrder(e){
+  e.preventDefault();if(!requireAuth())return;
+  const cart=AppState.cart;if(!cart.length)return;
+  const btn=document.getElementById('order-btn');btn.innerHTML='<span class="spinner"></span> Processing…';btn.disabled=true;
+  const firstR=cart[0]?.restaurantId?getRestaurantById(cart[0].restaurantId):null;
+  const fee=firstR?firstR.deliveryFee:2.99,sub=getCartTotal(),tax=sub*.08;
+  setTimeout(()=>{
+    const order={id:generateOrderId(),userId:AppState.currentUser.id,userName:AppState.currentUser.name,userEmail:AppState.currentUser.email,
+      restaurant:firstR?firstR.name:'Various',restaurantId:firstR?.id||null,restaurantImage:firstR?.image||'',
+      items:cart,subtotal:sub,deliveryFee:fee,tax,total:sub+fee+tax,payment:selPayment,
+      address:`${document.getElementById('co-addr').value}, ${document.getElementById('co-city').value} ${document.getElementById('co-zip').value}`,
+      notes:document.getElementById('co-notes').value,status:'pending',
+      createdAt:new Date().toISOString(),estimatedDelivery:new Date(Date.now()+(22+Math.random()*20)*60000).toISOString()};
+    AppState.addOrder(order);clearCart();
+    document.getElementById('s-id').textContent='Order #'+order.id;
+    document.getElementById('s-rest').textContent='From '+order.restaurant;
+    document.getElementById('s-time').textContent=new Date(order.estimatedDelivery).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    if(firstR?.image)document.getElementById('s-img').src=firstR.image;
+    document.getElementById('success-modal').classList.add('open');
+  },1600);
+}
+renderPage();
+</script>
+</body>
+</html>

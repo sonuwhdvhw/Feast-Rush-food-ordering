@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Sign In – FeastRush</title><link rel="stylesheet" href="styles.css"/></head>
+<body>
+<div class="bg-particles"><div class="bg-orb bg-orb-1"></div><div class="bg-orb bg-orb-2"></div></div>
+<div class="auth-split">
+  <!-- LEFT -->
+  <div class="auth-left">
+    <img class="auth-left-img" id="bg-img" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop" alt=""/>
+    <div class="auth-left-overlay"></div>
+    <div class="auth-left-content">
+      <a href="index.html" class="nav-logo" style="margin-bottom:32px;display:inline-flex;"><div class="logo-icon">🍔</div>Feast<span class="logo-rush">Rush</span></a>
+      <h2 style="font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#fff;margin-bottom:16px;line-height:1.2;">The World's Food,<br><span class="gradient-text">At Your Door</span></h2>
+      <p style="color:rgba(255,255,255,.65);font-size:.95rem;margin-bottom:32px;max-width:360px;line-height:1.7;">Join thousands of food lovers ordering from the world's best restaurants every day.</p>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:8px 16px;border-radius:50px;font-size:.82rem;">🌍 28 restaurants · 14 countries</div>
+        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:8px 16px;border-radius:50px;font-size:.82rem;">⚡ Average delivery in 25 minutes</div>
+        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:8px 16px;border-radius:50px;font-size:.82rem;">⭐ 4.8 average rating</div>
+      </div>
+    </div>
+  </div>
+  <!-- RIGHT -->
+  <div class="auth-right">
+    <div style="width:100%;max-width:400px;">
+      <div class="auth-tab-bar" style="margin-bottom:28px;">
+        <button id="tab-login"  class="btn btn-primary"  style="flex:1;justify-content:center;border-radius:10px;" onclick="switchTab('login')">Sign In</button>
+        <button id="tab-signup" class="btn btn-ghost"    style="flex:1;justify-content:center;border-radius:10px;" onclick="switchTab('signup')">Create Account</button>
+      </div>
+      <!-- LOGIN -->
+      <div id="login-panel">
+        <div class="auth-header"><h1>Welcome back 👋</h1><p>Sign in to continue ordering great food</p></div>
+        <form onsubmit="doLogin(event)">
+          <div class="form-group"><label class="form-label">Email</label><div class="input-icon-wrap"><span class="input-icon">✉️</span><input type="email" id="le" class="form-input" placeholder="you@example.com" required/></div></div>
+          <div class="form-group"><label class="form-label">Password</label><div class="input-icon-wrap"><span class="input-icon">🔒</span><input type="password" id="lp" class="form-input" placeholder="Your password" required/></div></div>
+          <div class="form-error" id="lerr" style="margin-bottom:14px;text-align:center;font-size:.86rem;"></div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:14px;" id="lbtn">Sign In</button>
+        </form>
+        <div class="auth-divider">or try a demo</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <button class="btn btn-outline" style="justify-content:center;" onclick="demoLogin('user')">👤 Demo User</button>
+          <button class="btn btn-secondary" style="justify-content:center;" onclick="demoLogin('admin')">🛡️ Admin Demo</button>
+        </div>
+        <p class="auth-footer-text">No account? <a href="#" onclick="switchTab('signup')">Create one free →</a></p>
+      </div>
+      <!-- SIGNUP -->
+      <div id="signup-panel" style="display:none;">
+        <div class="auth-header"><h1>Join FeastRush 🎉</h1><p>Create your account and start ordering today</p></div>
+        <form onsubmit="doSignup(event)">
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">First Name</label><input type="text" id="sfn" class="form-input" placeholder="John" required/></div>
+            <div class="form-group"><label class="form-label">Last Name</label><input type="text" id="sln" class="form-input" placeholder="Doe" required/></div>
+          </div>
+          <div class="form-group"><label class="form-label">Email</label><div class="input-icon-wrap"><span class="input-icon">✉️</span><input type="email" id="se" class="form-input" placeholder="you@example.com" required/></div></div>
+          <div class="form-group"><label class="form-label">Phone (optional)</label><div class="input-icon-wrap"><span class="input-icon">📱</span><input type="tel" id="sph" class="form-input" placeholder="+1 234 567 8900"/></div></div>
+          <div class="form-group"><label class="form-label">Password</label><div class="input-icon-wrap"><span class="input-icon">🔒</span><input type="password" id="sp" class="form-input" placeholder="Min 8 characters" required minlength="8"/></div></div>
+          <div class="form-group"><label class="form-label">Confirm Password</label><div class="input-icon-wrap"><span class="input-icon">🔒</span><input type="password" id="sp2" class="form-input" placeholder="Repeat password" required/></div></div>
+          <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;">
+            <input type="checkbox" id="terms" style="margin-top:3px;accent-color:var(--p1);width:16px;height:16px;" required/>
+            <label for="terms" style="font-size:.8rem;color:var(--text-m);cursor:pointer;line-height:1.5;">I agree to the <a href="#" style="color:var(--p1)">Terms</a> and <a href="#" style="color:var(--p1)">Privacy Policy</a></label>
+          </div>
+          <div class="form-error" id="serr" style="margin-bottom:14px;text-align:center;font-size:.86rem;"></div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:14px;" id="sbtn">Create Account</button>
+        </form>
+        <p class="auth-footer-text">Have an account? <a href="#" onclick="switchTab('login')">Sign in →</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="app.js"></script>
+<script>
+if(AppState.currentUser) window.location.href=AppState.currentUser.role==='admin'?'admin.html':'restaurants.html';
+const params=new URLSearchParams(window.location.search);
+const redirect=params.get('redirect')||null;
+switchTab(params.get('tab')==='signup'?'signup':'login');
+
+const bgImgs=['https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop','https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&auto=format&fit=crop','https://images.unsplash.com/photo-1553621042-f6e147245754?w=1200&auto=format&fit=crop','https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=1200&auto=format&fit=crop','https://images.unsplash.com/photo-1551024506-0bccd828d307?w=1200&auto=format&fit=crop'];
+let bgi=0;const bgEl=document.getElementById('bg-img');
+setInterval(()=>{bgi=(bgi+1)%bgImgs.length;bgEl.style.opacity='0';setTimeout(()=>{bgEl.src=bgImgs[bgi];bgEl.style.opacity='.35';bgEl.style.transition='opacity 1s';},600);},4000);
+
+function switchTab(t){
+  const il=t==='login';
+  document.getElementById('login-panel').style.display=il?'block':'none';
+  document.getElementById('signup-panel').style.display=il?'none':'block';
+  ['tab-login','tab-signup'].forEach((id,i)=>{
+    const btn=document.getElementById(id);btn.className='btn '+(il===(i===0)?'btn-primary':'btn-ghost');
+    btn.style.cssText='flex:1;justify-content:center;border-radius:10px;';
+  });
+}
+function doLogin(e){
+  e.preventDefault();const btn=document.getElementById('lbtn');
+  btn.innerHTML='<span class="spinner"></span> Signing in…';btn.disabled=true;
+  setTimeout(()=>{
+    const r=login(document.getElementById('le').value.trim(),document.getElementById('lp').value);
+    if(r.success){showToast('Welcome back, '+r.user.name+'! 🎉','success');setTimeout(()=>{window.location.href=redirect||(r.user.role==='admin'?'admin.html':'restaurants.html');},700);}
+    else{const el=document.getElementById('lerr');el.textContent=r.error;el.classList.add('show');btn.innerHTML='Sign In';btn.disabled=false;}
+  },700);
+}
+function doSignup(e){
+  e.preventDefault();const btn=document.getElementById('sbtn');
+  const p=document.getElementById('sp').value,p2=document.getElementById('sp2').value;
+  if(p!==p2){const el=document.getElementById('serr');el.textContent='Passwords do not match';el.classList.add('show');return;}
+  btn.innerHTML='<span class="spinner"></span> Creating…';btn.disabled=true;
+  setTimeout(()=>{
+    const r=register(document.getElementById('sfn').value.trim()+' '+document.getElementById('sln').value.trim(),document.getElementById('se').value.trim(),p,document.getElementById('sph').value.trim());
+    if(r.success){showToast('Account created! Welcome to FeastRush 🎉','success');setTimeout(()=>{window.location.href=redirect||'restaurants.html';},700);}
+    else{const el=document.getElementById('serr');el.textContent=r.error;el.classList.add('show');btn.innerHTML='Create Account';btn.disabled=false;}
+  },700);
+}
+function demoLogin(role){
+  if(role==='admin'){login(ADMIN_EMAIL,ADMIN_PASSWORD);showToast('Signed in as Admin 🛡️','success');setTimeout(()=>{window.location.href='admin.html';},700);}
+  else{if(!AppState.users.find(u=>u.email==='demo@feastrush.com'))register('Alex Demo','demo@feastrush.com','Demo@1234','');else login('demo@feastrush.com','Demo@1234');showToast('Signed in as Demo User 👤','success');setTimeout(()=>{window.location.href=redirect||'restaurants.html';},700);}
+}
+</script>
+</body>
+</html>
